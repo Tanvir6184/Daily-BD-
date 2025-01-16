@@ -1,57 +1,48 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../../../Context/Auth Context/AuthContext";
 
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const navOptions = (
     <>
       <li>
         <Link>
-          <a>Item 1</a>
+          <a>Home</a>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Item 1</a>
+          <a>Add Articles</a>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Item 1</a>
+          <a>Subscriptions</a>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Item 1</a>
+          <a>Dashboard</a>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Item 1</a>
+          <a>My Articles</a>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Item 1</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>Item 1</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>Item 1</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>Item 1</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>Item 1</a>
+          <a>Premium Articles</a>
         </Link>
       </li>
     </>
@@ -89,18 +80,39 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navOptions}</ul>
       </div>
-      <div className="navbar-end">
-        <div className="">
-          <Link to="/login">
-            <a className="btn">Login</a>
-          </Link>
-        </div>
-        <div className="">
-          <Link to="/register">
-            <a className="btn">Sign Up</a>
-          </Link>
-        </div>
-      </div>
+      {user ? (
+        <>
+          <div className="navbar-end">
+            <div className="">
+              <Link>
+                <button onClick={handleLogout} className="btn">
+                  Logout
+                </button>
+              </Link>
+            </div>
+            <div className="">
+              <Link>
+                <a className="btn">image</a>
+              </Link>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="navbar-end">
+            <div className="">
+              <Link to="/login">
+                <a className="btn">Login</a>
+              </Link>
+            </div>
+            <div className="">
+              <Link to="/register">
+                <a className="btn">Sign Up</a>
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
