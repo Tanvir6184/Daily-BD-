@@ -16,6 +16,6 @@ createRoot(document.getElementById("root")).render(
         </div>
       </AuthProvider>
     </HelmetProvider>
-    <Toaster />
+    <Toaster toastOptions={{ duration: 2000 }} />
   </StrictMode>
 );

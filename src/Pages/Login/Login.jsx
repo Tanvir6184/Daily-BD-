@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import SocialLogin from "../../Components/SocialLogin";
 
 const Login = () => {
-  const { login, googleSignIn } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
