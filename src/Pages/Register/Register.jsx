@@ -5,6 +5,7 @@ import { useContext } from "react";
 import AuthContext from "../../Context/Auth Context/AuthContext";
 import { Helmet } from "react-helmet-async";
 import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 const Register = () => {
   const { createUser, ProfileUpdate } = useContext(AuthContext);
 
@@ -142,6 +143,12 @@ const Register = () => {
               </button>
             </div>
           </form>
+          <p className="text-center pt-2 ">
+            Have an account?{" "}
+            <span className="text-green-400 font-bold">
+              <Link to="/login">login</Link>
+            </span>
+          </p>
         </div>
 
         {/* Lottie Animation Section */}

@@ -6,9 +6,10 @@ import loginAnimation from "../../assets/login.json";
 import AuthContext from "../../Context/Auth Context/AuthContext";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import SocialLogin from "../../Components/SocialLogin";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { login, googleSignIn } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -93,9 +94,7 @@ const Login = () => {
           </form>
           <button>
             <Link>
-              <p className="mx-auto flex justify-center items-center p-2">
-                Sign in with <FcGoogle className="ml-2"></FcGoogle>
-              </p>
+              <SocialLogin></SocialLogin>
             </Link>
           </button>
         </div>
