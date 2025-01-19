@@ -4,10 +4,13 @@ import animation from "../../assets/register.json";
 import { useContext } from "react";
 import AuthContext from "../../Context/Auth Context/AuthContext";
 import { Helmet } from "react-helmet-async";
-import { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 const Register = () => {
   const { createUser, ProfileUpdate } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -24,9 +27,25 @@ const Register = () => {
       console.log(loggedUser);
       ProfileUpdate(data.name, data.photoURL)
         .then(() => {
-          console.log("user profile info updated");
-          reset();
-          <Toaster position="top-right" toastOptions={{ duration: 3000 }} />;
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+            image: data.photoURL,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("user added");
+              reset();
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "User created successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
+          });
         })
         .catch((error) => {
           console.log(error);

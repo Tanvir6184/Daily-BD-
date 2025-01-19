@@ -3,9 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../../Context/Auth Context/AuthContext";
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
-
+  // console.log(user);
   const handleLogout = () => {
     logout()
       .then((res) => {
@@ -16,36 +15,45 @@ const Navbar = () => {
       });
   };
 
+  const isAdmin = true;
+
   const navOptions = (
     <>
       <li>
         <Link>
-          <a>Home</a>
+          <button>Home</button>
+        </Link>
+      </li>
+      <li>
+        <Link to="/add-articles">
+          <button>Add Articles</button>
+        </Link>
+      </li>
+      <li>
+        <Link to="/approved-articles">
+          <button>All Articles</button>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Add Articles</a>
+          <button>Subscriptions</button>
+        </Link>
+      </li>
+      {isAdmin && (
+        <li>
+          <Link to="dashboard">
+            <button>Dashboard</button>
+          </Link>
+        </li>
+      )}
+      <li>
+        <Link>
+          <button>My Articles</button>
         </Link>
       </li>
       <li>
         <Link>
-          <a>Subscriptions</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>Dashboard</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>My Articles</a>
-        </Link>
-      </li>
-      <li>
-        <Link>
-          <a>Premium Articles</a>
+          <button>Premium Articles</button>
         </Link>
       </li>
     </>

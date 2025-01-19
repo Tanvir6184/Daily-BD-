@@ -10,6 +10,7 @@ import AddPublisher from "../AdminPages/Add Publisher/AddPublisher";
 import ApprovedArticles from "../Pages/Approved Articles/ApprovedArticles";
 import ArticleDetails from "../Pages/Article Details/ArticleDetails";
 import Subscription from "../Pages/Subscription/Subscription";
+import AddArticles from "../Pages/Add Articles/AddArticles";
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +30,11 @@ export const router = createBrowserRouter([
         element: <Register></Register>,
       },
       {
-        path: "approved-article",
+        path: "add-articles",
+        element: <AddArticles></AddArticles>,
+      },
+      {
+        path: "approved-articles",
         element: <ApprovedArticles></ApprovedArticles>,
       },
       {
