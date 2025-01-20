@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import axios from "axios";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const AddArticles = () => {
+  const axiosPublic = useAxiosPublic();
+  const img_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
+  const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
+
   const options = [
     { value: "News", label: "News" },
     { value: "Sports", label: "Sports" },
@@ -12,7 +17,6 @@ const AddArticles = () => {
     { value: "Current Affairs", label: "Current Affairs" },
   ];
 
-  // Form state
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -20,8 +24,8 @@ const AddArticles = () => {
     tags: [],
     image_url: "",
   });
+  console.log(formData);
 
-  // Errors state
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -37,6 +41,33 @@ const AddArticles = () => {
       ...formData,
       tags: selectedTags,
     });
+  };
+
+  const handleImageChange = async (e) => {
+    const imageFile = e.target.files[0];
+    if (!imageFile) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("image", imageFile);
+
+      const response = await axios.post(img_hosting_api, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.data.success) {
+        setFormData({
+          ...formData,
+          image_url: response.data.data.url,
+        });
+      } else {
+        alert("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
   const validateForm = () => {
@@ -67,7 +98,6 @@ const AddArticles = () => {
         image_url: formData.image_url,
       };
 
-      // Send POST request to backend
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-article`,
         articleData
@@ -97,17 +127,16 @@ const AddArticles = () => {
           )}
         </div>
 
-        {/* Image URL */}
+        {/* Image Upload */}
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">
-            Image URL
+            Image Upload
           </label>
           <input
-            type="url"
+            type="file"
             name="image_url"
-            value={formData.image_url}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md p-2"
+            onChange={handleImageChange}
+            className="file-input file-input-bordered w-full"
           />
           {errors.image_url && (
             <p className="text-red-500 text-sm mt-1">{errors.image_url}</p>
