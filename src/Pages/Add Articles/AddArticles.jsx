@@ -18,13 +18,14 @@ const AddArticles = () => {
   ];
 
   const [formData, setFormData] = useState({
+    name: "",
+    email: "",
     title: "",
     description: "",
     publisher: "",
     tags: [],
     image_url: "",
   });
-  console.log(formData);
 
   const [errors, setErrors] = useState({});
 
@@ -48,10 +49,10 @@ const AddArticles = () => {
     if (!imageFile) return;
 
     try {
-      const formData = new FormData();
-      formData.append("image", imageFile);
+      const imgFormData = new FormData();
+      imgFormData.append("image", imageFile);
 
-      const response = await axios.post(img_hosting_api, formData, {
+      const response = await axios.post(img_hosting_api, imgFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -72,6 +73,8 @@ const AddArticles = () => {
 
   const validateForm = () => {
     const newErrors = {};
+    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.email) newErrors.email = "Email is required";
     if (!formData.title) newErrors.title = "Title is required";
     if (!formData.image_url) newErrors.image_url = "Image URL is required";
     if (!formData.publisher) newErrors.publisher = "Publisher is required";
@@ -91,6 +94,8 @@ const AddArticles = () => {
 
     try {
       const articleData = {
+        name: formData.name,
+        email: formData.email,
         title: formData.title,
         description: formData.description,
         publisher: formData.publisher,
@@ -112,6 +117,36 @@ const AddArticles = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold mb-6">Add Articles</h1>
       <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4">
+        {/* Name */}
+        <div className="col-span-2 sm:col-span-1">
+          <label className="block text-gray-700 font-medium mb-1">Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+          )}
+        </div>
+
+        {/* Email */}
+        <div className="col-span-2 sm:col-span-1">
+          <label className="block text-gray-700 font-medium mb-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
+        </div>
+
         {/* Title */}
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">Title</label>
