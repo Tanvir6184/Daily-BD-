@@ -1,11 +1,8 @@
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import React, { useState } from "react";
 import Select from "react-select";
+import axios from "axios";
 
 const AddArticles = () => {
-  // const img_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
-  // const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
-
   const options = [
     { value: "News", label: "News" },
     { value: "Sports", label: "Sports" },
@@ -15,58 +12,105 @@ const AddArticles = () => {
     { value: "Current Affairs", label: "Current Affairs" },
   ];
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  // Form state
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    publisher: "",
+    tags: [],
+    image_url: "",
+  });
 
-  const onSubmit = (data) => {
-    console.log("Form Data Submitted:", {
-      ...data,
-      tags: data.tags?.map((tag) => tag.value),
+  // Errors state
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
+  };
+
+  const handleTagsChange = (selectedTags) => {
+    setFormData({
+      ...formData,
+      tags: selectedTags,
+    });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.image_url) newErrors.image_url = "Image URL is required";
+    if (!formData.publisher) newErrors.publisher = "Publisher is required";
+    if (formData.tags.length === 0)
+      newErrors.tags = "Please select at least one tag";
+    if (!formData.description)
+      newErrors.description = "Description is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    try {
+      const articleData = {
+        title: formData.title,
+        description: formData.description,
+        publisher: formData.publisher,
+        tags: formData.tags.map((tag) => tag.value),
+        image_url: formData.image_url,
+      };
+
+      // Send POST request to backend
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/add-article`,
+        articleData
+      );
+      console.log("Article added successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting article:", error);
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold mb-6">Add Articles</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
-      >
+      <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4">
         {/* Title */}
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">Title</label>
           <input
             type="text"
-            {...register("title", { required: "Title is required" })}
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
           />
           {errors.title && (
-            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
           )}
         </div>
 
-        {/* Image File */}
+        {/* Image URL */}
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">
-            Image File
+            Image URL
           </label>
           <input
-            type="file"
-            className="file-input file-input-bordered w-full h-10"
-          />
-          {/* <input
-            type="text"
-            {...register("image_file", { required: "Image file is required" })}
+            type="url"
+            name="image_url"
+            value={formData.image_url}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
-          /> */}
-          {errors.image_file && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.image_file.message}
-            </p>
+          />
+          {errors.image_url && (
+            <p className="text-red-500 text-sm mt-1">{errors.image_url}</p>
           )}
         </div>
 
@@ -77,36 +121,30 @@ const AddArticles = () => {
           </label>
           <input
             type="text"
-            {...register("publisher", { required: "Publisher is required" })}
+            name="publisher"
+            value={formData.publisher}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
           />
           {errors.publisher && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.publisher.message}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.publisher}</p>
           )}
         </div>
 
         {/* Tags */}
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">Tags</label>
-          <Controller
-            name="tags"
-            control={control}
-            rules={{ required: "Please select at least one tag" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={options}
-                isMulti
-                placeholder="Select tags"
-                className="react-select-container"
-                classNamePrefix="react-select"
-              />
-            )}
+          <Select
+            value={formData.tags}
+            onChange={handleTagsChange}
+            options={options}
+            isMulti
+            placeholder="Select tags"
+            className="react-select-container"
+            classNamePrefix="react-select"
           />
           {errors.tags && (
-            <p className="text-red-500 text-sm mt-1">{errors.tags.message}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.tags}</p>
           )}
         </div>
 
@@ -116,16 +154,14 @@ const AddArticles = () => {
             Description
           </label>
           <textarea
-            {...register("description", {
-              required: "Description is required",
-            })}
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
             rows="4"
           />
           {errors.description && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.description.message}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
           )}
         </div>
 

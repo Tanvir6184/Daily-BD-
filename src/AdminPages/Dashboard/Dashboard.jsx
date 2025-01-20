@@ -25,7 +25,7 @@ const Dashboard = () => {
         </ul>
       </div>
 
-      <div className="menu w-2/3 text-center">
+      <div className="menu w-full text-center">
         <Outlet></Outlet>
       </div>
     </div>
