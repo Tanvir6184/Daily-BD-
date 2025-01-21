@@ -11,6 +11,7 @@ import ApprovedArticles from "../Pages/Approved Articles/ApprovedArticles";
 import ArticleDetails from "../Pages/Article Details/ArticleDetails";
 import Subscription from "../Pages/Subscription/Subscription";
 import AddArticles from "../Pages/Add Articles/AddArticles";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-articles",
-        element: <AddArticles></AddArticles>,
+        element: (
+          <PrivateRoute>
+            <AddArticles></AddArticles>
+          </PrivateRoute>
+        ),
       },
       {
         path: "approved-articles",
@@ -43,25 +48,45 @@ export const router = createBrowserRouter([
       },
       {
         path: "subscription",
-        element: <Subscription></Subscription>,
+        element: (
+          <PrivateRoute>
+            <Subscription></Subscription>
+          </PrivateRoute>
+        ),
       },
     ],
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "all-user",
-        element: <AllUsers></AllUsers>,
+        element: (
+          <PrivateRoute>
+            <AllUsers></AllUsers>
+          </PrivateRoute>
+        ),
       },
       {
         path: "all-articles",
-        element: <AllArticles></AllArticles>,
+        element: (
+          <PrivateRoute>
+            <AllArticles></AllArticles>
+          </PrivateRoute>
+        ),
       },
       {
         path: "add-publisher",
-        element: <AddPublisher></AddPublisher>,
+        element: (
+          <PrivateRoute>
+            <AddPublisher></AddPublisher>
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -1,9 +1,10 @@
 import React from "react";
+import Publisher from "../../Components/Publisher Data/Publisher";
 
 const Home = () => {
   return (
     <div>
-      <p>Home</p>
+      <Publisher></Publisher>
     </div>
   );
 };

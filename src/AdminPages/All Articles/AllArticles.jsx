@@ -139,13 +139,13 @@ const AllArticles = () => {
       {/* Decline Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg h-80 w-80">
             <h3 className="text-lg font-semibold mb-4">Decline Article</h3>
             <textarea
               value={declineReason}
               onChange={(e) => setDeclineReason(e.target.value)}
               className="w-full border rounded-md p-2"
-              rows="4"
+              rows="7"
               placeholder="Enter reason for decline..."
             />
             <div className="mt-4 flex justify-end space-x-2">
