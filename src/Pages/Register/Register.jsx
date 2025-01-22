@@ -7,50 +7,84 @@ import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+
 const Register = () => {
   const { createUser, ProfileUpdate } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const img_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
+  const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
   const {
     register,
     handleSubmit,
     reset,
-
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const uploadImage = async (imageFile) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      const response = await fetch(img_hosting_api, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        return data.data.url;
+      } else {
+        throw new Error("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error uploading image",
+        text: error.message,
+      });
+    }
+  };
+
+  const onSubmit = async (data) => {
     console.log(data);
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
-      ProfileUpdate(data.name, data.photoURL)
-        .then(() => {
-          const userInfo = {
-            name: data.name,
-            email: data.email,
-            image: data.photoURL,
-          };
-          axiosPublic.post("/users", userInfo).then((res) => {
-            if (res.data.insertedId) {
-              console.log("user added");
-              reset();
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "User created successfully",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              navigate("/");
-            }
+
+    const imageUrl = await uploadImage(data.image[0]);
+
+    if (imageUrl) {
+      createUser(data.email, data.password).then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        ProfileUpdate(data.name, imageUrl)
+          .then(() => {
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+              image: imageUrl,
+            };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              if (res.data.insertedId) {
+                console.log("user added");
+                reset();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "User created successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              }
+            });
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+      });
+    }
   };
 
   return (
@@ -60,7 +94,6 @@ const Register = () => {
       </Helmet>
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         {/* Form Section */}
-
         <div>
           <p className="text-center text-3xl font-bold">REGISTER HERE!</p>
           <form
@@ -74,7 +107,7 @@ const Register = () => {
               </label>
               <input
                 type="text"
-                placeholder="Enter your name"
+                placeholder="name"
                 className="input input-bordered"
                 {...register("name", { required: "Name is required" })}
               />
@@ -88,7 +121,7 @@ const Register = () => {
             {/* Image Field */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Image</span>
+                <span className="label-text">Your Photo</span>
               </label>
               <input
                 type="file"

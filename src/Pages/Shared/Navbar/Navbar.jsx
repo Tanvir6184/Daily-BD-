@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthContext from "../../../Context/Auth Context/AuthContext";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  console.log(user);
   const handleLogout = () => {
     logout()
       .then((res) => {
@@ -93,16 +94,23 @@ const Navbar = () => {
       {user ? (
         <>
           <div className="navbar-end">
-            <div className="">
+            <div className="mr-3">
               <Link>
-                <button onClick={handleLogout} className="btn">
+                <button
+                  onClick={handleLogout}
+                  className="btn rounded-full bg-red-400"
+                >
                   Logout
                 </button>
               </Link>
             </div>
             <div className="">
-              <Link>
-                <a className="btn">image</a>
+              <Link to="/my-profile">
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName}
+                  className="rounded-full h-16 w-16"
+                />
               </Link>
             </div>
           </div>
