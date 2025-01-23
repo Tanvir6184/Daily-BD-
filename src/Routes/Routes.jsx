@@ -14,6 +14,7 @@ import AddArticles from "../Pages/Add Articles/AddArticles";
 import PrivateRoute from "./PrivateRoute";
 import MyProfile from "../Pages/My Profile/MyProfile";
 import Error from "../Pages/Error/Error";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -66,33 +67,33 @@ export const router = createBrowserRouter([
   {
     path: "dashboard",
     element: (
-      <PrivateRoute>
+      <AdminRoute>
         <Dashboard></Dashboard>
-      </PrivateRoute>
+      </AdminRoute>
     ),
     children: [
       {
         path: "all-user",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AllUsers></AllUsers>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "all-articles",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AllArticles></AllArticles>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {
         path: "add-publisher",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <AddPublisher></AddPublisher>
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
     ],
