@@ -1,6 +1,7 @@
 import React from "react";
 import { FaBook, FaCompactDisc, FaUsers } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../../Hooks/useAdmin";
 
 const Dashboard = () => {
   return (

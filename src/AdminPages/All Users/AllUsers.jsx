@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
 
+  // Fetch users data
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -15,6 +16,7 @@ const AllUsers = () => {
     },
   });
 
+  // Handle making a user admin
   const handleMakeAdmin = (user) => {
     axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
       if (res.data.modifiedCount > 0) {
@@ -33,7 +35,7 @@ const AllUsers = () => {
   return (
     <div>
       <div className="flex justify-evenly my-4">
-        <h2 className="text-2xl">All users</h2>
+        <h2 className="text-2xl">All Users</h2>
         <h2 className="text-2xl">Total Users {users.length}</h2>
       </div>
       <div className="overflow-x-auto">
@@ -50,36 +52,31 @@ const AllUsers = () => {
           </thead>
           <tbody>
             {users.map((user, index) => (
-              <tr>
+              <tr key={user._id}>
                 <th>{index + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src={user.image}
-                          alt="Avatar Tailwind CSS Component"
-                        />
+                        <img src={user.image} alt="User Avatar" />
                       </div>
                     </div>
                   </div>
                 </td>
                 <td>{user.name}</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">{user.email}</button>
-                </th>
-                <th>
+                <td>{user.email}</td>
+                <td>
                   {user.role === "admin" ? (
                     "Admin"
                   ) : (
                     <button
                       onClick={() => handleMakeAdmin(user)}
-                      className="btn btn-lg bg-blue-500"
+                      className="btn btn-lg bg-blue-500 text-white"
                     >
-                      <FaUser className="text-2xl text-white "></FaUser>
+                      <FaUser className="text-2xl"></FaUser>
                     </button>
                   )}
-                </th>
+                </td>
               </tr>
             ))}
           </tbody>

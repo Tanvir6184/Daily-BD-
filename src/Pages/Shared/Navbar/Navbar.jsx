@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../../Context/Auth Context/AuthContext";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -15,7 +16,8 @@ const Navbar = () => {
       });
   };
 
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+  console.log(isAdmin);
 
   const navOptions = (
     <>
@@ -39,6 +41,7 @@ const Navbar = () => {
           <button>Subscriptions</button>
         </Link>
       </li>
+
       {isAdmin && (
         <li>
           <Link to="dashboard">

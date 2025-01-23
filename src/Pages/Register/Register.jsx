@@ -67,7 +67,6 @@ const Register = () => {
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               if (res.data.insertedId) {
-                console.log("user added");
                 reset();
                 Swal.fire({
                   position: "center",

@@ -26,10 +26,14 @@ const AllArticles = () => {
   console.log(articles);
   const handleApproval = async (articleId) => {
     try {
-      await axios.put(`/approve-article/${articleId}`);
-      alert("Article approved");
+      await axiosSecure.put(`/articles/status/${articleId}`, {
+        status: "approved",
+      }); // Send the status in the body
+      toast.success("Article approved"); // Use toast for better UX
+      refetch(); // Refresh the articles to show the updated status
     } catch (err) {
-      alert("Error approving article");
+      console.error("Error approving article:", err);
+      toast.error("Error approving article");
     }
   };
 
@@ -101,12 +105,18 @@ const AllArticles = () => {
               </p>
               <p className="text-gray-300">Publisher: {article.publisher}</p>
               <div className="flex justify-center space-x-2">
-                <button
-                  className="btn-sm bg-green-600 rounded-lg"
-                  onClick={() => handleApproval(article._id)}
-                >
-                  Approve
-                </button>
+                {article.status === "pending" ? (
+                  <button
+                    className="btn-sm bg-yellow-500 rounded-lg"
+                    onClick={() => handleApproval(article._id)}
+                  >
+                    Pending
+                  </button>
+                ) : (
+                  <button className="btn-sm bg-green-600 rounded-lg" disabled>
+                    Approved
+                  </button>
+                )}
                 <button
                   className="btn-sm bg-yellow-600 rounded-lg"
                   onClick={() => openDeclineModal(article._id)}
