@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Components/Loading";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { MdOutlineUpdate } from "react-icons/md";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { GrUpdate } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const MyArticles = () => {
   const { user } = useAuth();
@@ -15,6 +15,7 @@ const MyArticles = () => {
     data: articles,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ["myArticles", user?.email],
     queryFn: async () => {
@@ -26,9 +27,17 @@ const MyArticles = () => {
   if (isLoading) return <Loading />;
 
   if (isError)
-    return (
-      <p className="text-center text-red-500">Failed to fetch articles.</p>
-    );
+    return <p className="text-center text-red-500">Failed to get articles.</p>;
+
+  const handleDelete = async (Id) => {
+    try {
+      await axiosSecure.delete(`/delete-article/${Id}`);
+      refetch();
+      toast.success("deleted success");
+    } catch (err) {
+      alert("Error deleting article");
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -57,7 +66,7 @@ const MyArticles = () => {
                   <td className="p-3">{index + 1}</td>
                   <td className="p-3 font-semibold">{article.title}</td>
                   <td className="p-3">
-                    <Link to="/article-details">
+                    <Link to={`/article-details/${article._id}`}>
                       <button className="btn btn-sm btn-info text-white">
                         View Details
                       </button>
@@ -66,9 +75,9 @@ const MyArticles = () => {
                   <td className="p-3">
                     <span
                       className={`px-3 py-1 rounded-full text-white ${
-                        article.status === "Published"
-                          ? "bg-green-500"
-                          : "bg-yellow-500"
+                        article.status === "approved"
+                          ? "bg-green-500 text-slate-900"
+                          : "bg-yellow-500 text-red-700"
                       }`}
                     >
                       {article.status}
