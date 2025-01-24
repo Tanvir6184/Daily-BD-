@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { getAuth } from "firebase/auth";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 
@@ -7,10 +6,9 @@ const ProfileUpdate = () => {
   const img_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
   const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
-  // const auth = getAuth();
   const { user, updateProfile } = useAuth();
 
-  const [displayName, setDisplayName] = useState("");
+  const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [photoFile, setPhotoFile] = useState(null);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +22,8 @@ const ProfileUpdate = () => {
         method: "POST",
         body: formData,
       });
+      if (!response.ok) throw new Error("Failed to upload image");
+
       const data = await response.json();
 
       if (data.success) {
@@ -35,7 +35,7 @@ const ProfileUpdate = () => {
       console.error("Error uploading image:", error);
       Swal.fire({
         icon: "error",
-        title: "Error uploading image",
+        title: "Error",
         text: error.message,
       });
       return null;
@@ -49,7 +49,7 @@ const ProfileUpdate = () => {
     }
 
     setIsLoading(true);
-    let imageUrl = user.photoURL; // Use existing profile picture if no new image is selected
+    let imageUrl = user?.photoURL || "";
 
     if (photoFile) {
       imageUrl = await uploadImage(photoFile);
@@ -61,10 +61,11 @@ const ProfileUpdate = () => {
     }
 
     try {
-      await updateProfile(user, {
+      await updateProfile({
         displayName: displayName || user.displayName,
         photoURL: imageUrl,
       });
+      console.log(photoURL);
 
       setMessage("Profile updated successfully!");
       Swal.fire({
@@ -93,14 +94,14 @@ const ProfileUpdate = () => {
 
         <div className="flex flex-col items-center mb-4">
           <img
-            src={user?.photoURL}
+            src={user?.photoURL || "https://via.placeholder.com/150"}
             alt="Profile"
             className="rounded-full w-24 h-24 border-4 border-blue-400 shadow-md"
           />
         </div>
 
-        <div className="border-2 text-center text-2xl text-purple-600 font-bold">
-          <h2>{user?.displayName}</h2>
+        <div className="border-2 text-center text-2xl text-purple-600 font-bold mb-4">
+          <h2>{user?.displayName || "No Name"}</h2>
         </div>
 
         <div className="mb-4">

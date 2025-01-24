@@ -24,8 +24,6 @@ const SocialLogin = () => {
           toast.success("Google Sign In Successful");
           navigate("/");
         });
-        // toast.success("Google Sign In Successful");
-        // navigate("/");
       })
       .catch((error) => {
         console.log(error.message);
