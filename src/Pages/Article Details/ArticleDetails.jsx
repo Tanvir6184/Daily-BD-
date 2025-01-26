@@ -9,7 +9,7 @@ const ArticleDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/article/${id}`)
+      .get(`https://assignment-11-server-zeta-lilac.vercel.app/article/${id}`)
       .then((res) => {
         setArticle(res.data);
         setLoading(false);

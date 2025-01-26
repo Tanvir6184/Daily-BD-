@@ -5,19 +5,14 @@ import useAdmin from "../../../Hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  console.log(user);
+
   const handleLogout = () => {
     logout()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((res) => {})
+      .catch((error) => {});
   };
 
   const [isAdmin] = useAdmin();
-  console.log(isAdmin);
 
   const navOptions = (
     <>

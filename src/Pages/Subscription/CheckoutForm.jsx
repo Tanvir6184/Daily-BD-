@@ -21,7 +21,6 @@ const CheckoutForm = () => {
   useEffect(() => {
     if (price) {
       axiosSecure.post("/payment-intent", { price: price }).then((res) => {
-        console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
     }
@@ -51,7 +50,6 @@ const CheckoutForm = () => {
       setError(error.message);
       setIsProcessing(false);
     } else {
-      console.log("PaymentMethod:", paymentMethod);
       setIsProcessing(false);
     }
 
@@ -68,12 +66,9 @@ const CheckoutForm = () => {
       });
 
     if (confirmError) {
-      console.log("confirm error");
       setError("Payment confirmation failed. Please try again.");
     } else {
-      console.log("payment intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
-        console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
 
         const formattedDate = moment().format("YYYY-MM-DD ");
@@ -83,12 +78,10 @@ const CheckoutForm = () => {
           price: price,
           transactionId: paymentIntent.id,
           date: formattedDate,
-          transactionId: paymentIntent.id,
           status: "pending",
         };
 
         const res = await axiosSecure.post("/payments", payment);
-        console.log("payment saved", res);
       }
     }
   };

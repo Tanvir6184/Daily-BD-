@@ -74,7 +74,9 @@ export const router = createBrowserRouter([
         path: "article-details/:id",
         element: <ArticleDetails></ArticleDetails>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/my-articles/${params.id}`),
+          fetch(
+            `https://assignment-11-server-zeta-lilac.vercel.app/my-articles/${params.id}`
+          ),
       },
 
       {

@@ -13,21 +13,17 @@ const SocialLogin = () => {
   const handleGoogleSignIn = () => {
     googleSignIn()
       .then((result) => {
-        console.log(result.user);
         const userInfo = {
           email: result.user?.email,
           name: result.user?.displayName,
           image: result.user?.photoURL,
         };
         axiosPublic.post("/users", userInfo).then((res) => {
-          console.log(res.data);
           toast.success("Google Sign In Successful");
           navigate("/");
         });
       })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      .catch((error) => {});
   };
 
   return (

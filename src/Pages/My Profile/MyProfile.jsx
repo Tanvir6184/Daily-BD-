@@ -6,7 +6,7 @@ const ProfileUpdate = () => {
   const img_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
   const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
-  const { user, updateProfile } = useAuth();
+  const { user, ProfileUpdate } = useAuth();
 
   const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [photoFile, setPhotoFile] = useState(null);
@@ -61,11 +61,10 @@ const ProfileUpdate = () => {
     }
 
     try {
-      await updateProfile({
-        displayName: displayName || user.displayName,
-        photoURL: imageUrl,
-      });
-      console.log(photoURL);
+      await ProfileUpdate(
+        displayName?.toString().trim() || user.displayName,
+        imageUrl
+      );
 
       setMessage("Profile updated successfully!");
       Swal.fire({
@@ -113,7 +112,7 @@ const ProfileUpdate = () => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
             placeholder="Enter new display name"
             value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
+            onChange={(e) => setDisplayName(e.target.value.toString())}
           />
         </div>
 

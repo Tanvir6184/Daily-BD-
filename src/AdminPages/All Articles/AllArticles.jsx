@@ -24,6 +24,13 @@ const AllArticles = () => {
     },
   });
 
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
+
   const handleApproval = async (articleId) => {
     try {
       await axiosSecure.put(`/articles/status/${articleId}`, {
@@ -66,7 +73,9 @@ const AllArticles = () => {
 
   const handleMakePremium = async (articleId) => {
     try {
-      await axios.put(`http://localhost:5000/make-premium/${articleId}`);
+      await axios.put(
+        `https://assignment-11-server-zeta-lilac.vercel.app/make-premium/${articleId}`
+      );
       refetch();
       toast.success("Article marked as premium!");
     } catch (err) {
@@ -101,7 +110,9 @@ const AllArticles = () => {
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               {article.title}
             </h2>
-            <p className="text-gray-600 text-sm mb-4">{article.description}</p>
+            <p className="text-gray-600 text-sm mb-4">
+              {truncateText(article.description, 30)}
+            </p>
             <div className="flex flex-col text-sm text-gray-500">
               <p>
                 <span className="font-semibold">Author:</span> {article.name}

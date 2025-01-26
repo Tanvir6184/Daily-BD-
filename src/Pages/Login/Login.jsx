@@ -27,7 +27,6 @@ const Login = () => {
     setErrorMessage("");
     login(data.email, data.password)
       .then((result) => {
-        console.log(result);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -38,7 +37,6 @@ const Login = () => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log(error.message);
         setErrorMessage("Incorrect credentials. Please try again.");
       });
   };

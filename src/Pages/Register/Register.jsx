@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const { createUser, ProfileUpdate } = useContext(AuthContext);
@@ -50,14 +51,11 @@ const Register = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     const imageUrl = await uploadImage(data.image[0]);
 
     if (imageUrl) {
       createUser(data.email, data.password).then((result) => {
         const loggedUser = result.user;
-        console.log(loggedUser);
         ProfileUpdate(data.name, imageUrl)
           .then(() => {
             const userInfo = {
@@ -80,7 +78,7 @@ const Register = () => {
             });
           })
           .catch((error) => {
-            console.log(error);
+            toast.error(error.message);
           });
       });
     }
