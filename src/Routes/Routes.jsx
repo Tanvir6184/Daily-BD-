@@ -16,6 +16,7 @@ import MyProfile from "../Pages/My Profile/MyProfile";
 import Error from "../Pages/Error/Error";
 import AdminRoute from "./AdminRoute";
 import MyArticles from "../Pages/My Articles/MyArticles";
+import Payment from "../Pages/Subscription/Payment";
 // import MyArticles from "../Pages/My Articles/MyArticles";
 
 export const router = createBrowserRouter([
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
             <Subscription></Subscription>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "payment",
+        element: <Payment></Payment>,
       },
       {
         path: "my-articles",

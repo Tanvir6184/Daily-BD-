@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const AddArticles = () => {
   const axiosPublic = useAxiosPublic();
@@ -107,7 +108,17 @@ const AddArticles = () => {
         `${import.meta.env.VITE_API_URL}/add-article`,
         articleData
       );
-      console.log("Article added successfully:", response.data);
+
+      {
+        response.data.insertedId &&
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Article added successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      }
     } catch (error) {
       console.error("Error submitting article:", error);
     }

@@ -7,7 +7,9 @@ import Header from "../Components/Header/Header";
 const MainLayout = () => {
   const location = useLocation();
 
-  const noHeaderFooter = location.pathname.includes("login");
+  const noHeaderFooter =
+    location.pathname.includes("login") ||
+    location.pathname.includes("register");
 
   return (
     <div className="">
@@ -20,7 +22,7 @@ const MainLayout = () => {
       <div className="min-h-[calc(100vh-100px)]">
         <Outlet></Outlet>
       </div>
-      {noHeaderFooter || <Footer></Footer>}
+      <div className="w-full"> {noHeaderFooter || <Footer></Footer>}</div>
     </div>
   );
 };

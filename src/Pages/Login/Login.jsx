@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginAnimation from "../../assets/login.json";
@@ -21,7 +21,10 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const onSubmit = (data) => {
+    setErrorMessage("");
     login(data.email, data.password)
       .then((result) => {
         console.log(result);
@@ -36,6 +39,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error.message);
+        setErrorMessage("Incorrect credentials. Please try again.");
       });
   };
 
@@ -90,6 +94,13 @@ const Login = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
+            </div>
+            <div>
+              {errorMessage && (
+                <p className="text-red-500 text-sm mt-2 text-center">
+                  {errorMessage}
+                </p>
+              )}
             </div>
           </form>
           <button>
