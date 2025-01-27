@@ -72,3 +72,9 @@ This project is licensed under the MIT License.
 ## User email - close@gmail.com (ADMIN)
 
 ## User password - Tanvira61+84
+
+## Github Link : https://github.com/Programming-Hero-Web-Course4/b10a12-client-side-Tanvir6184
+
+## Client Side LIVE Link: https://daily-bangladesh-2e2b7.firebaseapp.com/
+
+## Server Side Link: https://github.com/Programming-Hero-Web-Course4/b10a12-server-side-Tanvir6184
