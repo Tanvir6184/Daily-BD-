@@ -17,7 +17,7 @@ import Error from "../Pages/Error/Error";
 import AdminRoute from "./AdminRoute";
 import MyArticles from "../Pages/My Articles/MyArticles";
 import Payment from "../Pages/Subscription/Payment";
-// import MyArticles from "../Pages/My Articles/MyArticles";
+import PremiumArticles from "../Pages/Premium Articles/PremiumArticles";
 
 export const router = createBrowserRouter([
   {
@@ -81,7 +81,19 @@ export const router = createBrowserRouter([
 
       {
         path: "/my-profile",
-        element: <MyProfile></MyProfile>,
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "premium-articles",
+        element: (
+          <PrivateRoute>
+            <PremiumArticles></PremiumArticles>
+          </PrivateRoute>
+        ),
       },
     ],
   },

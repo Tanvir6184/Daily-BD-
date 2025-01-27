@@ -139,7 +139,9 @@ const Navbar = () => {
             {navOptions}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <p className="text-xl italic bg-white p-2 rounded-lg font-bold text-gray-700">
+          DAILY BD
+        </p>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navOptions}</ul>
@@ -172,14 +174,28 @@ const Navbar = () => {
         <>
           <div className="navbar-end">
             <div className="">
-              <Link to="/login">
-                <a className="btn">Login</a>
-              </Link>
+              <NavLink
+                className={({ isActive }) =>
+                  `font-bold p-2 rounded-lg ${
+                    isActive ? "text-white bg-yellow-950" : "hover:text-black"
+                  }`
+                }
+                to="/login"
+              >
+                <button>Login</button>
+              </NavLink>
             </div>
             <div className="">
-              <Link to="/register">
-                <a className="btn">Sign Up</a>
-              </Link>
+              <NavLink
+                className={({ isActive }) =>
+                  `font-bold p-2 rounded-lg ${
+                    isActive ? "text-white bg-yellow-950" : "hover:text-black"
+                  }`
+                }
+                to="/register"
+              >
+                <button>Sign Up</button>
+              </NavLink>
             </div>
           </div>
         </>

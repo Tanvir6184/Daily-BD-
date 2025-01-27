@@ -16,6 +16,12 @@ const ApprovedArticles = () => {
       return res.data;
     },
   });
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -40,13 +46,12 @@ const ApprovedArticles = () => {
               <h2 className="text-xl font-semibold text-white mb-2">
                 {article.title}
               </h2>
-              <p className="text-gray-200 mb-4">{article.description}</p>
+              <p className="text-gray-200 mb-4">
+                {truncateText(article.description, 30)}
+              </p>
               <p className="text-gray-300">Author: {article.name}</p>
               <p className="text-gray-300">Email: {article.email}</p>
-              <p className="text-gray-300">
-                Published on:{" "}
-                {new Date(article.posted_date).toLocaleDateString()}
-              </p>
+
               <p className="text-gray-300">Publisher: {article.publisher}</p>
             </div>
           </div>
