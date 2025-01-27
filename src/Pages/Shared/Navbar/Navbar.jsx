@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../../../Context/Auth Context/AuthContext";
 import useAdmin from "../../../Hooks/useAdmin";
 
@@ -17,42 +17,97 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
-        <Link>
+        <NavLink
+          className={({ isActive }) =>
+            `font-bold p-2 rounded-lg ${
+              isActive ? "text-white bg-yellow-950" : "hover:text-black"
+            }`
+          }
+          to="/"
+        >
           <button>Home</button>
-        </Link>
+        </NavLink>
       </li>
+
       <li>
-        <Link to="/add-articles">
+        <NavLink
+          className={({ isActive }) =>
+            `font-bold p-2 rounded-lg ${
+              isActive ? "text-white bg-yellow-950" : "hover:text-black"
+            }`
+          }
+          to="/add-articles"
+          activeClassName="text-blue-500 font-bold"
+        >
           <button>Add Articles</button>
-        </Link>
+        </NavLink>
       </li>
+
       <li>
-        <Link to="/approved-articles">
+        <NavLink
+          className={({ isActive }) =>
+            `font-bold p-2 rounded-lg ${
+              isActive ? "text-white bg-yellow-950" : "hover:text-black"
+            }`
+          }
+          to="/approved-articles"
+        >
           <button>All Articles</button>
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link to="/subscription">
+        <NavLink
+          className={({ isActive }) =>
+            `font-bold p-2 rounded-lg ${
+              isActive ? "text-white bg-yellow-950" : "hover:text-black"
+            }`
+          }
+          to="/subscription"
+        >
           <button>Subscriptions</button>
-        </Link>
+        </NavLink>
       </li>
 
       {isAdmin && (
         <li>
-          <Link to="dashboard">
+          <NavLink
+            className={({ isActive }) =>
+              `font-bold p-2 rounded-lg ${
+                isActive ? "text-white bg-yellow-950" : "hover:text-black"
+              }`
+            }
+            to="/dashboard"
+          >
             <button>Dashboard</button>
-          </Link>
+          </NavLink>
         </li>
       )}
+
       <li>
-        <Link to="my-articles">
+        <NavLink
+          className={({ isActive }) =>
+            `font-bold p-2 rounded-lg ${
+              isActive
+                ? "text-white bg-yellow-950"
+                : "hover:text-black hover:bg-white"
+            }`
+          }
+          to="/my-articles"
+        >
           <button>My Articles</button>
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link>
+        <NavLink
+          className={({ isActive }) =>
+            `font-bold p-2 rounded-lg ${
+              isActive ? "text-white bg-yellow-950" : "hover:text-black"
+            }`
+          }
+          to="/premium-articles"
+        >
           <button>Premium Articles</button>
-        </Link>
+        </NavLink>
       </li>
     </>
   );

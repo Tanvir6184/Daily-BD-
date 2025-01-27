@@ -3,9 +3,13 @@ import Select from "react-select";
 import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
+import { useEffect } from "react";
 
 const AddArticles = () => {
   const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
+  console.log(user);
   const img_hosting_key = import.meta.env.VITE_IMG_HOSTING_KEY;
   const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
@@ -72,6 +76,16 @@ const AddArticles = () => {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      setFormData((prevData) => ({
+        ...prevData,
+        name: user.displayName || "",
+        email: user.email || "",
+      }));
+    }
+  }, [user]);
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = "Name is required";
@@ -104,7 +118,7 @@ const AddArticles = () => {
         image_url: formData.image_url,
       };
 
-      const response = await axios.post(
+      const response = await axiosPublic.post(
         `${import.meta.env.VITE_API_URL}/add-article`,
         articleData
       );
@@ -132,8 +146,10 @@ const AddArticles = () => {
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">Name</label>
           <input
+            disabled
             type="text"
             name="name"
+            defaultValue={user.displayName || ""}
             value={formData.name}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
@@ -147,8 +163,10 @@ const AddArticles = () => {
         <div className="col-span-2 sm:col-span-1">
           <label className="block text-gray-700 font-medium mb-1">Email</label>
           <input
+            defaultValue={user.email}
             type="email"
             name="email"
+            disabled
             value={formData.email}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
