@@ -5,6 +5,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import { useEffect } from "react";
+// import ThemeToggle from "../../Components/ThemeToggle";
 
 const AddArticles = () => {
   const axiosPublic = useAxiosPublic();
@@ -139,7 +140,7 @@ const AddArticles = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
+    <div className="max-w-4xl mx-auto p-6 dark:bg-gray-900 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold mb-6">Add Articles</h1>
       <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4">
         {/* Name */}
@@ -184,7 +185,7 @@ const AddArticles = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md p-2"
+            className="w-full border border-gray-300 bg-white text-black rounded-md p-2"
           />
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title}</p>
@@ -200,7 +201,7 @@ const AddArticles = () => {
             type="file"
             name="image_url"
             onChange={handleImageChange}
-            className="file-input file-input-bordered w-full"
+            className="file-input file-input-bordered w-full bg-white text-black"
           />
           {errors.image_url && (
             <p className="text-red-500 text-sm mt-1">{errors.image_url}</p>
@@ -217,7 +218,7 @@ const AddArticles = () => {
             name="publisher"
             value={formData.publisher}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md p-2"
+            className="w-full border border-gray-300 bg-white text-black rounded-md p-2"
           />
           {errors.publisher && (
             <p className="text-red-500 text-sm mt-1">{errors.publisher}</p>
@@ -250,7 +251,7 @@ const AddArticles = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md p-2"
+            className="w-full border border-gray-300 bg-white text-black rounded-md p-2"
             rows="4"
           />
           {errors.description && (

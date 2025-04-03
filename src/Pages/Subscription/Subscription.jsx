@@ -39,7 +39,7 @@ const Subscription = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-screen dark:bg-gray-900 bg-white flex items-center justify-center p-6">
       <div className="grid md:grid-cols-3 gap-6">
         {Object.keys(plans).map((plan) => (
           <div

@@ -19,7 +19,7 @@ const MainLayout = () => {
         </div>
       )}
       <Navbar></Navbar>
-      <div className="min-h-[calc(100vh-100px)]">
+      <div className="min-h-[calc(100vh-100px)] dark:bg-gray-900 bg-white">
         <Outlet></Outlet>
       </div>
       <div className="w-full"> {noHeaderFooter || <Footer></Footer>}</div>

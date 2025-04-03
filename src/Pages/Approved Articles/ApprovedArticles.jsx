@@ -60,14 +60,14 @@ const ApprovedArticles = () => {
   }
 
   return (
-    <div>
+    <div className="dark:bg-gray-900 bg-white">
       <h2 className="text-2xl font-bold mb-4">Approved Articles</h2>
 
       {/* Search field */}
       <div className="mb-4">
         <input
           type="text"
-          className="border p-2 rounded-md w-full"
+          className="border p-2 rounded-md w-full dark:bg-gray-900 bg-white"
           placeholder="Search articles by title..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

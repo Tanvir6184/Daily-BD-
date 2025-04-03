@@ -40,7 +40,7 @@ const MyArticles = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6 dark:bg-gray-900 bg-white">
       <h2 className="text-3xl font-bold mb-6 text-center">My Articles</h2>
 
       {articles?.length > 0 ? (

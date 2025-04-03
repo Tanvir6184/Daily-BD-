@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../../../Context/Auth Context/AuthContext";
 import useAdmin from "../../../Hooks/useAdmin";
-
+import ThemeToggle from "../../../Components/ThemeToggle";
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
 
@@ -113,7 +113,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar dark:bg-gray-900 bg-white">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -146,6 +146,7 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navOptions}</ul>
       </div>
+
       {user ? (
         <>
           <div className="navbar-end">
@@ -200,6 +201,7 @@ const Navbar = () => {
           </div>
         </>
       )}
+      <ThemeToggle />
     </div>
   );
 };
