@@ -24,7 +24,7 @@ const Header = () => {
       <Marquee
         pauseOnHover
         speed={50}
-        className="bg-gray-900 text-white py-2 mt-4"
+        className="bg-gray-900 text-white py-2 m-4 mt-4"
       >
         {headlines.length > 0 ? (
           headlines.map((item, index) => (
