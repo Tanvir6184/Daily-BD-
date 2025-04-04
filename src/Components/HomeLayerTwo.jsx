@@ -1,7 +1,7 @@
 const HomeLayerTwo = () => {
   return (
-    <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto text-center">
+    <div className=" py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto text-center dark:bg-gray-900 dark:text-white bg-white">
         {/* Newspaper Logo */}
         <img
           src=""
@@ -10,7 +10,7 @@ const HomeLayerTwo = () => {
         />
 
         {/* Headline */}
-        <h1 className="mt-6 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+        <h1 className="mt-6 text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
           Stay Informed with Daily Bangladesh
         </h1>
 
@@ -58,7 +58,7 @@ const HomeLayerTwo = () => {
             </a>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg ">
             <h2 className="text-2xl font-bold text-gray-900">
               Sports Highlights
             </h2>
